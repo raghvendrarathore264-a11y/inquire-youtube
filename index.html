@@ -10,14 +10,7 @@
 
     <title>Inquire_148</title>
 
-    <meta name="description"
-          content="Open Inquire_148 on YouTube">
-
     <style>
-        * {
-            box-sizing: border-box;
-        }
-
         body {
             margin: 0;
             min-height: 100vh;
@@ -26,61 +19,52 @@
             justify-content: center;
             align-items: center;
 
+            text-align: center;
+
             font-family: Arial, sans-serif;
 
-            background: #f5f5f5;
-
-            text-align: center;
+            background: #111;
+            color: white;
         }
 
-        .container {
+        .box {
             width: 90%;
             max-width: 400px;
-
-            background: white;
-
-            padding: 35px 25px;
-
-            border-radius: 18px;
-
-            box-shadow:
-                0 5px 25px rgba(0, 0, 0, 0.12);
         }
 
         h1 {
-            margin: 0 0 10px;
-
-            font-size: 30px;
+            font-size: 32px;
+            margin-bottom: 10px;
         }
 
         p {
-            color: #666;
-
-            margin-bottom: 25px;
-
-            font-size: 16px;
+            color: #ccc;
+            line-height: 1.6;
+            margin-bottom: 30px;
         }
 
         .button {
             display: inline-block;
 
-            padding: 14px 28px;
+            padding: 15px 30px;
 
             background: #ff0000;
-
             color: white;
 
             text-decoration: none;
 
-            border-radius: 8px;
+            border-radius: 10px;
 
-            font-size: 16px;
-
+            font-size: 18px;
             font-weight: bold;
         }
 
-        .button:hover {
-            opacity: 0.9;
+        .small {
+            margin-top: 20px;
+
+            color: #888;
+
+            font-size: 13px;
         }
     </style>
 </head>
@@ -88,62 +72,109 @@
 
 <body>
 
-    <div class="container">
+<div class="box">
 
-        <h1>Inquire_148</h1>
+    <h1>Inquire_148</h1>
 
-        <p>Opening YouTube...</p>
+    <p>
+        ⚡ Electronics • Technology • DIY Projects
+        <br>
+        🔧 Building • Experimenting • Learning
+    </p>
 
-        <a class="button"
-           href="https://www.youtube.com/@inquire_148">
-            Open YouTube
-        </a>
+    <a class="button" id="youtubeButton"
+       href="https://www.youtube.com/@inquire_148">
 
+        ▶ Open YouTube
+
+    </a>
+
+    <div class="small">
+        Opening YouTube...
     </div>
 
-
-    <script>
-
-        // Your YouTube channel
-        const youtubeWeb =
-            "https://www.youtube.com/@inquire_148";
+</div>
 
 
-        // Try to open the YouTube app
-        const youtubeApp =
-            "youtube://www.youtube.com/@inquire_148";
+<script>
+
+    const webURL =
+        "https://www.youtube.com/@inquire_148";
 
 
-        // Remember the current time
-        const startTime = Date.now();
+    /*
+     * Android Intent URL
+     *
+     * This asks Android to open the YouTube
+     * application if it is installed.
+     */
+
+    const intentURL =
+        "intent://www.youtube.com/@inquire_148" +
+        "#Intent;" +
+        "scheme=https;" +
+        "package=com.google.android.youtube;" +
+        "S.browser_fallback_url=" +
+        encodeURIComponent(webURL) +
+        ";" +
+        "end";
 
 
-        // Try opening YouTube app
-        window.location.href = youtubeApp;
+    function openYouTube() {
+
+        /*
+         * Only attempt the Android Intent on Android.
+         */
+
+        const isAndroid =
+            /Android/i.test(navigator.userAgent);
 
 
-        // After 1.5 seconds, check whether
-        // the browser is still active.
+        if (isAndroid) {
 
-        setTimeout(function () {
+            window.location.href = intentURL;
 
-            const elapsed =
-                Date.now() - startTime;
+        } else {
+
+            /*
+             * iPhone / computer:
+             * use normal YouTube link.
+             */
+
+            window.location.href = webURL;
+
+        }
+
+    }
 
 
-            // If the browser is still active,
-            // open the normal YouTube website.
+    /*
+     * Try automatically after the page loads.
+     */
 
-            if (elapsed < 2500) {
+    setTimeout(function() {
 
-                window.location.href =
-                    youtubeWeb;
+        openYouTube();
 
-            }
+    }, 500);
 
-        }, 1500);
 
-    </script>
+    /*
+     * Also try when the user presses
+     * the Open YouTube button.
+     */
+
+    document
+        .getElementById("youtubeButton")
+        .addEventListener("click", function(event) {
+
+            event.preventDefault();
+
+            openYouTube();
+
+        });
+
+</script>
 
 </body>
 
